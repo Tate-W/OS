@@ -1,4 +1,4 @@
-all: kernel.o boot.o box.o libos.a
+kernel.elf: kernel.o boot.o box.o libos.a
 	aarch64-linux-gnu-ld -g -N -Ttext=0x10000 -o kernel.elf  kernel.o  boot.o box.o libos.a
 
 kernel.o: kernel.c
@@ -11,7 +11,7 @@ boot.o: boot.S
 	aarch64-linux-gnu-gcc -g -MMD -c boot.S -o boot.o
 
 clean:
-	rm -f *.o *.d
+	rm -f *.o *.d *.elf
 
 run: kernel.elf
 	qemu-system-aarch64 -machine raspi3b   -kernel kernel.elf

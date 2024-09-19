@@ -5,9 +5,8 @@ int box(unsigned int srow, unsigned int scol, unsigned int erow, unsigned int ec
 
 int main()
 {
-
     box(21, 49, 27, 79);
-    print_to(24, 59, "Hello World!");
+    print_to(24, 59, "Hello World");
     return 0;
 
 }
