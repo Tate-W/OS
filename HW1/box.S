@@ -54,8 +54,8 @@ box:
     // |      |
     // +------+
 _box_check_box_:
-    add sp, sp, 32
-    str x30, [sp]
+    
+    str x30, [sp, 32]
 
     //erow <= ecol
     cmp x2, x0
@@ -75,8 +75,7 @@ _box_check_box_:
     //else, return 0
     mov w0, 0
     
-    ldr x30, [sp]
-    sub sp, sp, 32
+    ldr x30, [sp, 32]
     ret
 
 
@@ -127,18 +126,25 @@ _box_draw_top_bottom_:
     // start_col + 1
     add x1, x1, 1
     
-    // Load x3 with end_col
+    // Load x3 with end_col and sub 1
     ldr x3, [sp, 24]
     sub x3, x3, 1
+    // Store x1 in the temp registry x4
     mov x4, x1
 top:
     mov x2, '-'
+    // Prints using x0(start_row), x1(start_col + 1), x2('-')
     bl putc_to
+    // Loads x0 and x1 with their original values since putc_to changes x0-x2
     mov x1, x4
     ldr x0, [sp]
+    // Compare x1(start_col + 1) to x3(end_col - 1)
     cmp x3, x1
+    // x1 = (start_col+1) + 1 per loop
     add x1, x1, 1
+    // Save x1 updated value in x4 (start + 2)
     mov x4, x1
+    // Continues the loop until x1(start_col ++) == x3(end_col) 
     bne top
 
     // Load end_row into x0
@@ -152,20 +158,24 @@ top:
     mov x4, x1
 bot:
     mov x2, '-'
+    // Prints using x0(end_row), x1(start_col + 1), x2('-')
     bl putc_to
+    // Loads x0 and x1 with their original values since putc_to changes x0-x2
     mov x1, x4
     ldr x0, [sp, 16]
+    // Compare x1(start_col + 1) to x3(end_col - 1)
     cmp x3, x1
+    // x1 = (start_col+1) + 1 per loop
     add x1, x1, 1
+    // Save x1 updated value in x4 (start + 2)
     mov x4, x1
+    // Continues the loop until x1(start_col ++) == x3(end_col) 
     bne bot
 
     ldr x30, [sp, 32]
     mov x4, 0
     ret
-    
-    // sr in x0, sc in x1, er int x2, ec in x3
-    // srow, scol, erow, ecol    ret
+
 _box_draw_right_left_:
     // Load start_row and start_col from stack
     ldp x0, x1, [sp]
@@ -174,15 +184,23 @@ _box_draw_right_left_:
     // Load x3 with end_row
     ldr x3, [sp, 16]
     sub x3, x3, 1
+    // Stores x0(start_row + 1) into temp x4 registry
     mov x4, x0
 left:
+
     mov x2, '|'
+    // Prints using x0(start_row + 1), x1(start_col), x2('|')
     bl putc_to
+    // Loads x0 and x1 with their original values since putc_to changes x0-x2
     mov x0, x4
     ldr x1, [sp, 8]
+    // Compare x0(start_row + 1) to x3(end_row - 1)
     cmp x3, x0
+    // x0 = (start_row+1) + 1 per loop
     add x0, x0, 1
+    // Save x0 updated value in x4 (start_row + 2)
     mov x4, x0
+    // Continues the loop until x0(start_row ++) == x3(end_row) 
     bne left
 
     // Load start_row and end_col from stack
@@ -190,20 +208,28 @@ left:
     ldr x1, [sp, 24]
     // start_row + 1
     add x0, x0, 1
-    // Load x3 with end_row
+    // Load x3 with end_row - 1
     ldr x3, [sp, 16]
     sub x3, x3, 1
+    // Stores x0(start_row + 1) into temp x4 registry
     mov x4, x0
 right:
     mov x2, '|'
+    // Prints using x0(start_row + 1), x1(end_col), x2('|')
     bl putc_to
+    // Loads x0 and x1 with their original values since putc_to changes x0-x2
     mov x0, x4
     ldr x1, [sp, 24]
+    // Compare x0(start_row + 1) to x3(end_row - 1)
     cmp x3, x0
+    // x0 = (start_row+1) + 1 per loop
     add x0, x0, 1
+    // Save x0 updated value in x4 (start_row + 2)
     mov x4, x0
+    // Continues the loop until x0(start_row ++) == x3(end_row) 
     bne right
 
+// No ret here, just lets the program run down and end after _box_exit_
 _box_error_:
     mov     w0, 1
 
