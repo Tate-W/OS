@@ -1,22 +1,46 @@
 #include "libos.h"
+#include "pcb.h"
+#include "queue.h"
+#include "process.h"
 #define TRUE 1
 #define FALSE 0
 
-void p1();
-void p2();
-void p3();
-void p4();
+int p1();
+int p2();
+int p3();
+int p4();
 
 int box(unsigned int srow, unsigned int scol, unsigned int erow, unsigned int ecol);
 int clear_scr(int start_row, int start_col, int width, int height);
 
+void go();
+void dispatch();
 
 int main()
 {
+    int retval;
     // Ensure the screen is clear
     clear_scr(21, 49, 27, 79);
 
+    init_rq();
 
+    retval = create_process(p1);
+    if (retval != 0)
+        return -1;
+
+    retval = create_process(p2);
+    if (retval != 0)
+        return -1;
+
+    retval = create_process(p3);
+    if (retval != 0)
+        return -1;
+
+    retval = create_process(p4);
+    if (retval != 0)
+        return -1;
+
+    go();
 
     return 0;
 
@@ -39,7 +63,7 @@ int clear_scr(int srow,int scol,int w,int h)
     return 0;
 }
 
-void p1()
+int p1()
 {
     char message[] = "Process 1: 0";
     int num;
@@ -64,7 +88,7 @@ void p1()
     }
 }
 
-void p2()
+int p2()
 {
     char message[] = "Process 2: 0";
     int num;
@@ -89,7 +113,7 @@ void p2()
     }
 }
 
-void p3()
+int p3()
 {
     char message[] = "Process 3: 0";
     int num;
@@ -114,20 +138,17 @@ void p3()
     }
 }
 
-void p4()
+int p4()
 {
     char message[] = "Process 4: 0";
-    int num;
+    int num = 0;
 
     box(13, 49, 15, 65);
     print_to(14, 51, message);
 
-    num = 0;
-
     while (TRUE)
     {
-        num = num + '0';
-        message[11] = num;
+        message[11] = num + '0';
         print_to(14, 51, message);
         num++;
 

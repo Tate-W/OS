@@ -1,22 +1,20 @@
 #include <stdint.h>
+#include "queue.h"
 
-void enqueue(PCB_Q_t *q, PCB_t *pcb);
-PCB_t *dequeue(PCB_Q_t *q);
 
-struct PCB
+PCB_Q_t rq;
+PCB_t *Running;
+
+void init_q(PCB_Q_t *q)
 {
-    uint64_t sp;
-    uint32_t pid;
-    struct PCB *next;
-};
-typedef struct PCB PCB_t;
+    q->head = q->tail = 0;
+}
 
-struct PCB_Q
+void init_rq()
 {
-    PCB_t *head;
-    PCB_t *tail;
-};
-typedef struct PCB_Q PCB_Q_t;
+    Running = 0;
+    init_q(&rq);
+}
 
 void enqueue(PCB_Q_t *q, PCB_t *pcb)
 {
@@ -33,10 +31,16 @@ void enqueue(PCB_Q_t *q, PCB_t *pcb)
 PCB_t *dequeue(PCB_Q_t *q)
 {
     if (q->head == 0)
-    {
-        /* code */
-    }
+        return 0;
     
+    PCB_t *dq_pcb = q->head;
+    q->head = q->head->next;
+    return dq_pcb;
 }
 
+void enqueue_r(PCB_t *pcb)
+{
+    enqueue(&rq, pcb);
+    return;
+}
 
