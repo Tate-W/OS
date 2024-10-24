@@ -21,9 +21,9 @@ int main()
     int retval;
     // Ensure the screen is clear
     clear_scr(21, 49, 27, 79);
-
+    // Initialize the ready queue
     init_rq();
-
+    // Create the 4 processes
     retval = create_process(p1);
     if (retval != 0)
         return -1;
@@ -39,7 +39,7 @@ int main()
     retval = create_process(p4);
     if (retval != 0)
         return -1;
-
+    // Jump to go() in process_asm.S
     go();
 
     return 0;
@@ -62,6 +62,14 @@ int clear_scr(int srow,int scol,int w,int h)
     
     return 0;
 }
+
+/********************************************************************
+    These are the process function that will be switched between.
+    Each process prints "Process X: 0" in a box to the screen.
+    Each process counts to 9, updating the print as it counts.
+    Once reaching 9, the process jumps to dispatch() in process_asm.S
+
+*********************************************************************/
 
 int p1()
 {

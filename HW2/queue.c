@@ -15,7 +15,7 @@ void init_rq()
     Running = 0;
     init_q(&rq);
 }
-
+// Enqueue function for the Ready Queue
 void enqueue(PCB_Q_t *q, PCB_t *pcb)
 {
     pcb->next = 0;
@@ -27,7 +27,8 @@ void enqueue(PCB_Q_t *q, PCB_t *pcb)
         q->tail = pcb;
     }
 }
-
+// Dequeue function for the Ready Queue
+// Returns PCB of dequeued process
 PCB_t *dequeue(PCB_Q_t *q)
 {
     if (q->head == 0)

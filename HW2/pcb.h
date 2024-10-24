@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+// Stucture definition for PCBs and Ready Queue
+
 struct PCB
 {
     uint64_t *sp;

@@ -1,12 +1,15 @@
 #include "pcb.h"
 #include "queue.h"
 
+// Allocate memory for process stacks
 #define MAX_STACKS 10
 uint64_t stacks[MAX_STACKS][1024];
 uint32_t next_stack = 0;
 
 uint32_t next_pid = 0;
 
+
+// Allocate memory for PCBs
 #define MAX_PCBS 4
 uint64_t pcbs[MAX_PCBS][sizeof(PCB_t)];
 uint32_t next_pcb = 0;
@@ -31,6 +34,12 @@ uint64_t *alloc_pcb()
 
 }
 
+/***************************************************************
+    This function will create the passed process.
+    It allocates memory for the process stack and PCB/
+    It then assigns the PCB values with sp and next_pid
+    The process is then enqueued and returns
+ ***************************************************************/
 int create_process(int (*code_address)()) 
 {
 
