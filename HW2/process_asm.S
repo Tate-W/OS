@@ -55,7 +55,6 @@ restore_context:
     ldr x2, [x0]
     mov sp, x2
 
-    sub sp, sp, 16*16
 
     ldr     x0, [sp, 16*15+8]   // Restore PSTATE
     msr     SPSR_EL1, x0

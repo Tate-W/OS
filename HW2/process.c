@@ -1,7 +1,7 @@
 #include "pcb.h"
 #include "queue.h"
 
-#define MAX_STACKS 4
+#define MAX_STACKS 10
 uint64_t stacks[MAX_STACKS][1024];
 uint32_t next_stack = 0;
 
@@ -49,6 +49,7 @@ int create_process(int (*code_address)())
 
     sp += 30;
     *sp = (uint64_t) code_address;
+    sp -= 30;
 
     PCB_t *pcb = (PCB_t *) alloc_pcb();
 
