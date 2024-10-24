@@ -66,17 +66,14 @@ int clear_scr(int srow,int scol,int w,int h)
 int p1()
 {
     char message[] = "Process 1: 0";
-    int num;
+    int num = 0;
 
     box(9, 23, 11, 39);
     print_to(10, 25, message);
 
-    num = 0;
-
     while (TRUE)
     {
-        num = num + '0';
-        message[11] = num;
+        message[11] = num + '0';
         print_to(10, 25, message);
         num++;
 
@@ -91,17 +88,15 @@ int p1()
 int p2()
 {
     char message[] = "Process 2: 0";
-    int num;
+    int num = 0;
 
     box(13, 23, 15, 39);
     print_to(14, 25, message);
 
-    num = 0;
-
     while (TRUE)
     {
-        num = num + '0';
-        message[11] = num;
+  
+        message[11] = num + '0';
         print_to(14, 25, message);
         num++;
 
@@ -116,17 +111,15 @@ int p2()
 int p3()
 {
     char message[] = "Process 3: 0";
-    int num;
+    int num = 0;
 
     box(9, 49, 11, 65);
     print_to(10, 51, message);
 
-    num = 0;
-
     while (TRUE)
     {
-        num = num + '0';
-        message[11] = num;
+        
+        message[11] = num + '0';
         print_to(10, 51, message);
         num++;
 

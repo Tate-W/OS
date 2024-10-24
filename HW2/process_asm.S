@@ -6,6 +6,7 @@
 .global     go
 .global     dispatch
 go:
+    
     b restore_context
 
 dispatch:
@@ -43,7 +44,6 @@ dispatch:
     adr     x1, Running
     ldr     x1, [x1]
     bl enqueue
-
 restore_context:
 
     adr x0, rq
@@ -54,6 +54,8 @@ restore_context:
 
     ldr x2, [x0]
     mov sp, x2
+
+    sub sp, sp, 16*16
 
     ldr     x0, [sp, 16*15+8]   // Restore PSTATE
     msr     SPSR_EL1, x0
@@ -74,6 +76,6 @@ restore_context:
     ldp     x26, x27, [sp, 13*16]
     ldp     x28, x29, [sp, 14*16]
     
-    ldr     x30, [sp], 15*16
+    ldr     x30, [sp, 15*16]
     add sp, sp, 16*16
     ret
